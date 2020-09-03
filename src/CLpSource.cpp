@@ -1,6 +1,8 @@
 
 #include "CLpSource.h"
 
+#define OS_MAX_PATH 260
+
 #define WIDTH 807
 #define HEIGHT 512
 
@@ -28,8 +30,8 @@ CLpSource::CLpSource(obs_data_t *pSettings, obs_source_t *pSource) {
 
 	update(pSettings, true);
 
-	char path[_MAX_PATH];
-	snprintf(path, _MAX_PATH, "%s/lp-background.png", obs_get_module_data_path(obs_current_module()));
+	char path[OS_MAX_PATH];
+	snprintf(path, OS_MAX_PATH, "%s/lp-background.png", obs_get_module_data_path(obs_current_module()));
 	setImageSourceFileName(m_pSubSources[CELP_SOURCE_SUB_SOURCE_TYPES::BACKGROUND_IMAGE], path);
 }
 
@@ -191,13 +193,13 @@ void CLpSource::update(obs_data_t *pSettings, bool fromCtor) {
 	} else if(initMode) {
 		m_displayedLp = m_lp;
 		if(!initMute) {
-			char path[_MAX_PATH];
-			snprintf(path, _MAX_PATH, "%s/lp-init.raw", obs_get_module_data_path(obs_current_module()));
+			char path[OS_MAX_PATH];
+			snprintf(path, OS_MAX_PATH, "%s/lp-init.raw", obs_get_module_data_path(obs_current_module()));
 			playSound(path, false, 0);
 		}
 	} else if(m_lp != m_displayedLp) {
-		char path[_MAX_PATH];
-		snprintf(path, _MAX_PATH, "%s/lp-loop.raw", obs_get_module_data_path(obs_current_module()));
+		char path[OS_MAX_PATH];
+		snprintf(path, OS_MAX_PATH, "%s/lp-loop.raw", obs_get_module_data_path(obs_current_module()));
 		m_audioLoopId = playSound(path, true, 6554);
 	}
 
@@ -253,12 +255,12 @@ void CLpSource::videoTick(float seconds) {
 				m_audioLoopId = AUDIO_ENGINE_UNDEFINED_TRACK_ID;
 
 				if(m_lp == 0) {
-					char path[_MAX_PATH];
-					snprintf(path, _MAX_PATH, "%s/lp-zero.raw", obs_get_module_data_path(obs_current_module()));
+					char path[OS_MAX_PATH];
+					snprintf(path, OS_MAX_PATH, "%s/lp-zero.raw", obs_get_module_data_path(obs_current_module()));
 					playSound(path, false, 0);
 				} else {
-					char path[_MAX_PATH];
-					snprintf(path, _MAX_PATH, "%s/lp-target-reached.raw", obs_get_module_data_path(obs_current_module()));
+					char path[OS_MAX_PATH];
+					snprintf(path, OS_MAX_PATH, "%s/lp-target-reached.raw", obs_get_module_data_path(obs_current_module()));
 					playSound(path, false, 0);
 				}
 			}

@@ -1,6 +1,8 @@
 
 #include "CMainSource.h"
 
+#define OS_MAX_PATH 260
+
 #define WIDTH 1920
 #define HEIGHT 1080
 #define MIN(x, y) ((x) < (y) ? (x) : (y))
@@ -430,8 +432,8 @@ void CMainSource::start(void) {
 
 	m_pAudioEngine = new CAudioEngine(m_pSource);
 
-	char path[_MAX_PATH];
-	snprintf(path, _MAX_PATH, "%s/main-animation.webm", obs_get_module_data_path(obs_current_module()));
+	char path[OS_MAX_PATH];
+	snprintf(path, OS_MAX_PATH, "%s/main-animation.webm", obs_get_module_data_path(obs_current_module()));
 	setVideoSourceFileName(m_pSubSources[CEMAIN_SOURCE_SUB_SOURCE_TYPES::VIDEO].m_pSource, path);
 
 	MAIN_SOURCE_SUB_SOURCE *pSubSource;
@@ -452,7 +454,7 @@ void CMainSource::start(void) {
 	setTextSourceText(pSubSource->m_pSource, m_pPlayer2Name);
 	pSubSource->m_visible = false;
 
-	snprintf(path, _MAX_PATH, "%s/main-animation.raw", obs_get_module_data_path(obs_current_module()));
+	snprintf(path, OS_MAX_PATH, "%s/main-animation.raw", obs_get_module_data_path(obs_current_module()));
 	playSound(path, false, 0);
 
 	m_startAnimTime = os_gettime_ns();
@@ -488,8 +490,8 @@ void CMainSource::updateAnimStateStopped(void) {
 void CMainSource::updateAnimStateWaitingForPlayers(void) {
 	int64_t currentVideoTime = obs_source_media_get_time(m_pSubSources[CEMAIN_SOURCE_SUB_SOURCE_TYPES::VIDEO].m_pSource);
 	if(currentVideoTime >= SHOWING_PLAYERS_TIMESTAMP) {
-		char path[_MAX_PATH];
-		snprintf(path, _MAX_PATH, "%s/main-players-show.raw", obs_get_module_data_path(obs_current_module()));
+		char path[OS_MAX_PATH];
+		snprintf(path, OS_MAX_PATH, "%s/main-players-show.raw", obs_get_module_data_path(obs_current_module()));
 		playSound(path, false, 0);
 		setAnimState(EMAIN_SOURCE_ANIM_STATE::SHOWING_PLAYERS);
 	}
