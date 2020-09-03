@@ -66,24 +66,3 @@ void obs_module_unload() {
 	
 	blog(LOG_INFO, "plugin unloaded");
 }
-
-// TODO
-// OK - scale des image des players
-// OK - affichage LP doit etre transparent tant que pas initialisé
-// OK - le son "chtong" quand le compteur de lp atteind sa destination c'est normal ou pas ?
-// OK - Pourquoi Ratio Fixe taille de la source ?
-// OK - ajouter un bouton clear pour les life point qui metteront a -1
-// OK - Qt
-// OK - ajouter un bouton pour stop anim
-// OK - init valeur des spin box quand on attache une source dessus
-// OK - Bug quand valeur LP trop grande !!
-// OK - save des valeurs selectionnées pour les sources
-// OK - tester comportement du combobox si au load de la conf on a un nom qui n'est pas dans la liste du combo
-// OK - tester avec filename pas valides
-// OK - tester avec filename valide a la save mais plus valide au load
-// OK - regarder sources de text source pour width et height
-// OK - nom des fichiers ressources en dur dans ce projet et le projet Qt
-// OK - Raccourcis clavier ?
-// fichier ogg
-// icone des sources dans obs
-// Faire un projet cmake ?
