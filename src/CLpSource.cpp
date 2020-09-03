@@ -194,12 +194,12 @@ void CLpSource::update(obs_data_t *pSettings, bool fromCtor) {
 		m_displayedLp = m_lp;
 		if(!initMute) {
 			char path[OS_MAX_PATH];
-			snprintf(path, OS_MAX_PATH, "%s/lp-init.raw", obs_get_module_data_path(obs_current_module()));
+			snprintf(path, OS_MAX_PATH, "%s/lp-init.ogg", obs_get_module_data_path(obs_current_module()));
 			playSound(path, false, 0);
 		}
 	} else if(m_lp != m_displayedLp) {
 		char path[OS_MAX_PATH];
-		snprintf(path, OS_MAX_PATH, "%s/lp-loop.raw", obs_get_module_data_path(obs_current_module()));
+		snprintf(path, OS_MAX_PATH, "%s/lp-loop.ogg", obs_get_module_data_path(obs_current_module()));
 		m_audioLoopId = playSound(path, true, 6554);
 	}
 
@@ -256,11 +256,11 @@ void CLpSource::videoTick(float seconds) {
 
 				if(m_lp == 0) {
 					char path[OS_MAX_PATH];
-					snprintf(path, OS_MAX_PATH, "%s/lp-zero.raw", obs_get_module_data_path(obs_current_module()));
+					snprintf(path, OS_MAX_PATH, "%s/lp-zero.ogg", obs_get_module_data_path(obs_current_module()));
 					playSound(path, false, 0);
 				} else {
 					char path[OS_MAX_PATH];
-					snprintf(path, OS_MAX_PATH, "%s/lp-target-reached.raw", obs_get_module_data_path(obs_current_module()));
+					snprintf(path, OS_MAX_PATH, "%s/lp-target-reached.ogg", obs_get_module_data_path(obs_current_module()));
 					playSound(path, false, 0);
 				}
 			}

@@ -454,7 +454,7 @@ void CMainSource::start(void) {
 	setTextSourceText(pSubSource->m_pSource, m_pPlayer2Name);
 	pSubSource->m_visible = false;
 
-	snprintf(path, OS_MAX_PATH, "%s/main-animation.raw", obs_get_module_data_path(obs_current_module()));
+	snprintf(path, OS_MAX_PATH, "%s/main-animation.ogg", obs_get_module_data_path(obs_current_module()));
 	playSound(path, false, 0);
 
 	m_startAnimTime = os_gettime_ns();
@@ -491,7 +491,7 @@ void CMainSource::updateAnimStateWaitingForPlayers(void) {
 	int64_t currentVideoTime = obs_source_media_get_time(m_pSubSources[CEMAIN_SOURCE_SUB_SOURCE_TYPES::VIDEO].m_pSource);
 	if(currentVideoTime >= SHOWING_PLAYERS_TIMESTAMP) {
 		char path[OS_MAX_PATH];
-		snprintf(path, OS_MAX_PATH, "%s/main-players-show.raw", obs_get_module_data_path(obs_current_module()));
+		snprintf(path, OS_MAX_PATH, "%s/main-players-show.ogg", obs_get_module_data_path(obs_current_module()));
 		playSound(path, false, 0);
 		setAnimState(EMAIN_SOURCE_ANIM_STATE::SHOWING_PLAYERS);
 	}

@@ -81,7 +81,7 @@ void CAudioEngine::update(void) {
 				if(m_pTracks[j]) {
 					memset(m_trackBuffer, 0, AUDIO_ENGINE_BUFFER_SIZE_IN_BYTES);
 
-					m_pTracks[j]->fill(m_trackBuffer, AUDIO_ENGINE_BUFFER_SIZE_IN_SAMPLES);
+					m_pTracks[j]->fill(m_trackBuffer, AUDIO_ENGINE_BUFFER_SIZE_IN_BYTES);
 					
 					for(int k = 0; k < AUDIO_ENGINE_BUFFER_SIZE_IN_SAMPLES; k++) {
 						long mix = m_mixBuffer[k] + m_trackBuffer[k];

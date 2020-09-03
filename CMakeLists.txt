@@ -33,6 +33,8 @@ endif()
 find_package(LibObs REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets)
 
+include(external/FindVorbis.cmake)
+
 configure_file(
     src/plugin-macros.h.in
     ../src/plugin-macros.generated.h
@@ -84,6 +86,8 @@ include_directories(
 	"${LIBOBS_INCLUDE_DIR}/../UI/obs-frontend-api"
 	${Qt5Core_INCLUDES}
 	${Qt5Widgets_INCLUDES}
+	${OGG_INCLUDE_DIR}
+	${VORBIS_INCLUDE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}/../src
 	src
 )
@@ -92,6 +96,9 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 	libobs
 	Qt5::Core
 	Qt5::Widgets
+	${OGG_LIBRARY}
+	${VORBIS_LIBRARY}
+	${VORBISFILE_LIBRARY}
 )
 
 # --- End of section ---

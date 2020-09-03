@@ -3,77 +3,51 @@
 #include <stdio.h>
 #include <memory.h>
 
+#define TRACK_OGG_NBITS_PER_SAMPLE 16
+
 #define MIN(X, Y) (((X) < (Y)) ? (X) : (Y))
-
-//#define M_PI_X2 (3.1415926535897932384626433832795 * 2)
-
 
 CAudioTrack::CAudioTrack(const char *pFileName, bool loop, size_t loopSample) {
 	m_loop = loop;
 	m_loopSample = loopSample;
-	m_sizeInBytes = 0;
-	m_sizeInSamples = 0;
+	m_finished = false;
 
-	m_currentSampleOffset = 0;
-	m_pSamples = NULL;
-
-	FILE *f = fopen(pFileName, "rb");
-	if(f) {
-		fseek(f, 0, SEEK_END);
-		m_sizeInBytes = ftell(f);
-		m_sizeInSamples = m_sizeInBytes / 2;
-		m_pSamples = new short[m_sizeInSamples];
-		fseek(f, 0, SEEK_SET);
-		fread(m_pSamples, 2, m_sizeInSamples, f);
-		fclose(f);
-	}
-
-	//m_angle = 0;
+	ov_fopen(pFileName, &m_vorbisFile);
 }
 
 CAudioTrack::~CAudioTrack(void) {
-	if(m_pSamples) {
-		delete[] m_pSamples;
-		m_pSamples = NULL;
-	}
+	ov_clear(&m_vorbisFile);
 }
 
-void CAudioTrack::fill(short *pData, size_t size) {
-	size_t totalSamplesWritten = 0;
+void CAudioTrack::fill(void *pData, size_t sizeInBytes) {
+	size_t nbRead;
+	
+	nbRead = 0;
 
-	while(m_currentSampleOffset < m_sizeInSamples && totalSamplesWritten < size) {
-		size_t missingSamples = size - totalSamplesWritten;
-		size_t nbSamplesWritable = m_sizeInSamples - m_currentSampleOffset;
-		size_t nbSampleWritten = MIN(
-			size - totalSamplesWritten, // missing samples
-			m_sizeInSamples - m_currentSampleOffset // available samples
-		);
+	while(nbRead < sizeInBytes) {
+		int sec;
+		long ret;
 
-		memcpy(&pData[totalSamplesWritten], &m_pSamples[m_currentSampleOffset], nbSampleWritten * 2);
+		ret = ov_read(&m_vorbisFile, ((char *)(pData)) + nbRead, sizeInBytes - nbRead, 0, 2, 1, &sec);
+		nbRead += ret;
 
-		totalSamplesWritten += nbSampleWritten;
-		m_currentSampleOffset += nbSampleWritten;
+		if(ret == 0 || (ov_pcm_tell(&m_vorbisFile) == ov_pcm_total(&m_vorbisFile, -1))) {
+			if(!m_loop) {
+				m_finished = true;
+				break;
+			} else {
+				ov_pcm_seek(&m_vorbisFile, m_loopSample);
+				
+				ret = ov_read(&m_vorbisFile, ((char *)(pData)) + nbRead, sizeInBytes - nbRead, 0, 2, 1, &sec);
+				nbRead += ret;
 
-		if(m_currentSampleOffset >= m_sizeInSamples && m_loop) {
-			m_currentSampleOffset = m_loopSample;
+				if(ret == 0)
+					break;
+			}
 		}
 	}
-
-	/*for (size_t i = 0; i < size; i++) {
-		pData[i] = (short)(sin(m_angle) * 32767.0);
-
-		m_angle += 0.05;
-		if (m_angle > M_PI_X2)
-			m_angle -= M_PI_X2;
-
-		//int u = (double)rand() / (RAND_MAX + 1) * (65535 - 0) + 0;
-		//pData[i] = (short)(u - 32768);
-	}*/
 }
 
 bool CAudioTrack::isFinished(void) {
-	if(m_currentSampleOffset >= m_sizeInSamples) {
-		return true;
-	}
-	return false;
+	return m_finished;
 }
