@@ -106,10 +106,9 @@ jobs:
       inputs:
         gitHubConnection: 'github.com_ThorAsgardDev'
         repositoryName: '$(Build.Repository.Name)'
-        action: 'edit'
+        action: 'create'
         target: '$(Build.SourceVersion)'
-        tag: '$(githubTag)'
-        assetUploadMode: 'replace'
+        tagSource: 'gitTag'
         addChangeLog: false
 
 - job: 'Build_Linux'
@@ -141,10 +140,9 @@ jobs:
       inputs:
         gitHubConnection: 'github.com_ThorAsgardDev'
         repositoryName: '$(Build.Repository.Name)'
-        action: 'edit'
+        action: 'create'
         target: '$(Build.SourceVersion)'
-        tag: '$(githubTag)'
-        assetUploadMode: 'replace'
+        tagSource: 'gitTag'
         addChangeLog: false
 
 # - job: 'Build_macOS'
