@@ -102,6 +102,16 @@ jobs:
         pathtoPublish: './package'
         artifactName: 'windows_build'
 
+    - task: GitHubRelease@1
+      inputs:
+        gitHubConnection: 'github.com_ThorAsgardDev'
+        repositoryName: '$(Build.Repository.Name)'
+        action: 'edit'
+        target: '$(Build.SourceVersion)'
+        tag: '$(githubTag)'
+        assetUploadMode: 'replace'
+        addChangeLog: false
+
 - job: 'Build_Linux'
   pool:
     vmImage: 'ubuntu-18.04'
@@ -126,6 +136,16 @@ jobs:
       inputs:
         pathtoPublish: './package'
         artifactName: 'deb_build'
+
+    - task: GitHubRelease@1
+      inputs:
+        gitHubConnection: 'github.com_ThorAsgardDev'
+        repositoryName: '$(Build.Repository.Name)'
+        action: 'edit'
+        target: '$(Build.SourceVersion)'
+        tag: '$(githubTag)'
+        assetUploadMode: 'replace'
+        addChangeLog: false
 
 # - job: 'Build_macOS'
   # pool:
