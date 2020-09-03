@@ -29,7 +29,7 @@ CLpSource::CLpSource(obs_data_t *pSettings, obs_source_t *pSource) {
 	update(pSettings, true);
 
 	char path[_MAX_PATH];
-	sprintf_s(path, _MAX_PATH, "%s/lp-background.png", obs_get_module_data_path(obs_current_module()));
+	snprintf(path, _MAX_PATH, "%s/lp-background.png", obs_get_module_data_path(obs_current_module()));
 	setImageSourceFileName(m_pSubSources[CELP_SOURCE_SUB_SOURCE_TYPES::BACKGROUND_IMAGE], path);
 }
 
@@ -59,7 +59,7 @@ void CLpSource::updateLpText(void) {
 		setTextSourceText(m_pSubSources[CELP_SOURCE_SUB_SOURCE_TYPES::LP_TEXT], "");
 	} else {
 		char text[6]; // 6 because: Max value is "99999" + '\0'
-		sprintf_s(text, 6, "%d", m_displayedLp);
+		snprintf(text, 6, "%d", m_displayedLp);
 		setTextSourceText(m_pSubSources[CELP_SOURCE_SUB_SOURCE_TYPES::LP_TEXT], text);
 	}
 }
@@ -192,12 +192,12 @@ void CLpSource::update(obs_data_t *pSettings, bool fromCtor) {
 		m_displayedLp = m_lp;
 		if(!initMute) {
 			char path[_MAX_PATH];
-			sprintf_s(path, _MAX_PATH, "%s/lp-init.raw", obs_get_module_data_path(obs_current_module()));
+			snprintf(path, _MAX_PATH, "%s/lp-init.raw", obs_get_module_data_path(obs_current_module()));
 			playSound(path, false, 0);
 		}
 	} else if(m_lp != m_displayedLp) {
 		char path[_MAX_PATH];
-		sprintf_s(path, _MAX_PATH, "%s/lp-loop.raw", obs_get_module_data_path(obs_current_module()));
+		snprintf(path, _MAX_PATH, "%s/lp-loop.raw", obs_get_module_data_path(obs_current_module()));
 		m_audioLoopId = playSound(path, true, 6554);
 	}
 
@@ -254,11 +254,11 @@ void CLpSource::videoTick(float seconds) {
 
 				if(m_lp == 0) {
 					char path[_MAX_PATH];
-					sprintf_s(path, _MAX_PATH, "%s/lp-zero.raw", obs_get_module_data_path(obs_current_module()));
+					snprintf(path, _MAX_PATH, "%s/lp-zero.raw", obs_get_module_data_path(obs_current_module()));
 					playSound(path, false, 0);
 				} else {
 					char path[_MAX_PATH];
-					sprintf_s(path, _MAX_PATH, "%s/lp-target-reached.raw", obs_get_module_data_path(obs_current_module()));
+					snprintf(path, _MAX_PATH, "%s/lp-target-reached.raw", obs_get_module_data_path(obs_current_module()));
 					playSound(path, false, 0);
 				}
 			}
