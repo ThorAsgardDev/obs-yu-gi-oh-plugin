@@ -108,10 +108,13 @@ jobs:
         repositoryName: '$(Build.Repository.Name)'
         action: 'edit'
         target: '$(Build.SourceVersion)'
-        tag: 'draft'
+        tag: 'pre-release'
+        assets: './package/*'
         assetUploadMode: 'replace'
-        isDraft: true
+        isPreRelease: true
         addChangeLog: false
+
+    
 
 - job: 'Build_Linux'
   pool:
@@ -144,9 +147,10 @@ jobs:
         repositoryName: '$(Build.Repository.Name)'
         action: 'edit'
         target: '$(Build.SourceVersion)'
-        tag: 'draft'
+        tag: 'pre-release'
+        assets: './package/*'
         assetUploadMode: 'replace'
-        isDraft: true
+        isPreRelease: true
         addChangeLog: false
 
 # - job: 'Build_macOS'
