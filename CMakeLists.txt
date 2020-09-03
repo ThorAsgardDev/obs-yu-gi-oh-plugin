@@ -2,18 +2,18 @@ cmake_minimum_required(VERSION 3.10)
 
 # Change obs-plugintemplate to your plugin's name in a machine-readable format
 # (e.g.: obs-myawesomeplugin) and set 
-project(obs-plugintemplate VERSION 1.0.0)
+project(obs-yu-gi-oh-plugin VERSION 1.0.0)
 
 # Replace `Your Name Here` with the name (yours or your organization's) you want
 # to see as the author of the plugin (in the plugin's metadata itself and in the installers)
-set(PLUGIN_AUTHOR "Your Name Here")
+set(PLUGIN_AUTHOR "TCProd")
 
 # Replace `com.example.obs-plugin-template` with a unique Bundle ID for macOS releases
 # (used both in the installer and when submitting the installer for notarization)
-set(MACOS_BUNDLEID "com.example.obs-plugintemplate")
+set(MACOS_BUNDLEID "com.tcprod.obs-yu-gi-oh-plugin")
 
 # Replace `me@contoso.com` with the maintainer email address you want to put in Linux packages
-set(LINUX_MAINTAINER_EMAIL "me@contoso.com")
+set(LINUX_MAINTAINER_EMAIL "thor.asgard.dev@gmail.com")
 
 # TAKE NOTE: No need to edit things past this point
 
@@ -56,10 +56,26 @@ configure_file(
 )
 
 set(PLUGIN_SOURCES
-	src/plugin-main.c)
+	src/plugin-main.cpp
+	src/CAudioEngine.cpp
+	src/CAudioTrack.cpp
+	src/CLpSource.cpp
+	src/CMainSource.cpp
+	src/ui/CControlPanel.cpp
+	src/ui/CControlPanelModel.cpp
+	src/ui/CWidgetPlayerImage.cpp
+    )
 
 set(PLUGIN_HEADERS
-	src/plugin-macros.generated.h)
+	../src/plugin-macros.generated.h
+	src/CAudioEngine.h
+	src/CAudioTrack.h
+	src/CLpSource.h
+	src/CMainSource.h
+	src/ui/CControlPanel.h
+	src/ui/CControlPanelModel.h
+	src/ui/CWidgetPlayerImage.h
+    )
 
 # --- Platform-independent build settings ---
 add_library(${CMAKE_PROJECT_NAME} MODULE ${PLUGIN_SOURCES} ${PLUGIN_HEADERS})
@@ -68,6 +84,8 @@ include_directories(
 	"${LIBOBS_INCLUDE_DIR}/../UI/obs-frontend-api"
 	${Qt5Core_INCLUDES}
 	${Qt5Widgets_INCLUDES}
+	${CMAKE_CURRENT_BINARY_DIR}/../src
+	src
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME}
