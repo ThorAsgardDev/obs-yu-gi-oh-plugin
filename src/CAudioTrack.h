@@ -2,6 +2,8 @@
 #ifndef __CAUDIO_TRACK_H__
 #define __CAUDIO_TRACK_H__
 
+#include <stdlib.h>
+
 class CAudioTrack {
 	private:
 		bool m_loop;
