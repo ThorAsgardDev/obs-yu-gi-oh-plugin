@@ -17,8 +17,7 @@ CAudioTrack::CAudioTrack(const char *pFileName, bool loop, size_t loopSample) {
 	m_currentSampleOffset = 0;
 	m_pSamples = NULL;
 
-	FILE *f;
-	fopen_s(&f, pFileName, "rb");
+	FILE *f = fopen(pFileName, "rb");
 	if(f) {
 		fseek(f, 0, SEEK_END);
 		m_sizeInBytes = ftell(f);
