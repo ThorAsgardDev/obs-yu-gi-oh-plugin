@@ -23,6 +23,7 @@ jobs:
     QTDIR32: '$(QtBaseDir)\5.10.1\msvc2017'
     QTDIR64: '$(QtBaseDir)\5.10.1\msvc2017_64'
     OBSPath: 'D:\obs-studio'
+    PluginDepsBasePath: 'D:\plugindeps'
   steps:
     - checkout: self
       submodules: true
@@ -31,6 +32,17 @@ jobs:
       displayName: 'Install Qt'
       env:
         QtBaseDir: $(QtBaseDir)
+        
+    - task: Cache@2
+      displayName: Restore cached Plugin dependencies
+      inputs:
+        key: 'plugindeps | "$(Agent.OS)"'
+        restoreKeys: |
+          plugindeps | "$(Agent.OS)"
+        path: $(PluginDepsBasePath)
+
+    - script: ./ci/windows/download-plugin-deps.cmd
+      displayName: 'Download Plugin dependencies'
 
     - task: Cache@2
       displayName: Restore cached OBS Studio dependencies
@@ -60,6 +72,7 @@ jobs:
         QTDIR32: $(QTDIR32)
         QTDIR64: $(QTDIR64)
         OBSPath: $(OBSPath)
+        PluginDepsBasePath: $(PluginDepsBasePath)
 
     - task: MSBuild@1
       displayName: 'Build OBS Studio 32-bit'
